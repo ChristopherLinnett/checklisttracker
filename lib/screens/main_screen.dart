@@ -12,9 +12,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<Checklist> checklistList = [
-    Checklist('Monday', [Task('do homwork', false)])
-  ];
+  List<Checklist> checklistList = [Checklist('Monday', [])];
   bool editMode = false;
 
   @override

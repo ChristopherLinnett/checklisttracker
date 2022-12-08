@@ -21,7 +21,13 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            launchModal(context);
+            launchModal(context).then((newTask) {
+              if (newTask != '') {
+                setState(() {
+                  widget.checklist.createTask(newTask);
+                });
+              }
+            });
           },
           backgroundColor: const Color.fromARGB(255, 68, 159, 19),
           child: const Icon(Icons.add, color: Colors.white),

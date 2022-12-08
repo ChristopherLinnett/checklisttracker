@@ -6,4 +6,10 @@ class Checklist {
   final String key = UniqueKey().toString();
   String title;
   List<Task> tasks;
+
+  createTask(String taskName) {
+    tasks.add(
+      Task(taskName, false),
+    );
+  }
 }

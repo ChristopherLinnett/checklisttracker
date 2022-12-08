@@ -1,7 +1,7 @@
 import 'package:checklisttracker/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
   runApp(const ChecklistApp());
 }
 

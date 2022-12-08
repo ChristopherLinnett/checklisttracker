@@ -1,4 +1,4 @@
-import 'package:checklisttracker/screens/detail_screen_controls.dart';
+import 'package:checklisttracker/screens/modal_controller.dart';
 import 'package:checklisttracker/shared_widgets/screen_title.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +18,28 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: CupertinoNavigationBar(
+            transitionBetweenRoutes: true,
+            previousPageTitle: 'Checklists',
+            backgroundColor: Colors.black,
+            trailing: TextButton(
+              child: Text(
+                  widget.checklist.tasks.isEmpty
+                      ? ''
+                      : editMode
+                          ? 'done'
+                          : 'edit',
+                  style: const TextStyle(color: Colors.blue, fontSize: 16)),
+              onPressed: () {
+                setState(() {
+                  editMode = !editMode;
+                });
+              },
+            )),
         backgroundColor: Colors.black,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            launchModal(context).then((newTask) {
+            launchModal(context: context, type: 'task').then((newTask) {
               if (newTask != '') {
                 setState(() {
                   widget.checklist.createTask(newTask);
@@ -36,27 +54,6 @@ class _DetailScreenState extends State<DetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  CupertinoNavigationBarBackButton(
-                      previousPageTitle: 'Checklists',
-                      color: Colors.lightBlue,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      }),
-                  const Spacer(),
-                  TextButton(
-                    child: Text(editMode ? 'cancel' : 'edit',
-                        style:
-                            const TextStyle(color: Colors.blue, fontSize: 16)),
-                    onPressed: () {
-                      setState(() {
-                        editMode = !editMode;
-                      });
-                    },
-                  )
-                ],
-              ),
               ScreenTitle(
                 title: widget.checklist.title,
               ),

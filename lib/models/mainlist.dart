@@ -7,6 +7,12 @@ class Checklist {
   String title;
   List<Task> tasks;
 
+  deleteTask(String taskKey) {
+    tasks.removeWhere((task) {
+      return task.key == taskKey;
+    });
+  }
+
   createTask(String taskName) {
     tasks.add(
       Task(taskName, false),

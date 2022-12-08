@@ -8,7 +8,7 @@ Future<String> launchModal(context) async {
       builder: (BuildContext context) {
         return Container(
           height: 300,
-          color: const Color.fromARGB(255, 68, 159, 19),
+          color: Colors.black87,
           child: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,7 +34,7 @@ Future<String> launchModal(context) async {
                   ),
                 ),
                 ElevatedButton(
-                  child: const Text('Close BottomSheet'),
+                  child: const Text('Add'),
                   onPressed: () {
                     Navigator.pop(context, textValue != '' ? textValue : '');
                   },
@@ -44,5 +44,5 @@ Future<String> launchModal(context) async {
           ),
         );
       });
-  return returnedValue!;
+  return returnedValue ?? '';
 }

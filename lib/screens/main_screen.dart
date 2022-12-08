@@ -1,5 +1,6 @@
 import 'package:checklisttracker/models/task.dart';
 import 'package:checklisttracker/screens/detail_screen.dart';
+import 'package:checklisttracker/shared_widgets/screen_title.dart';
 import 'package:flutter/material.dart';
 import '../models/mainlist.dart';
 
@@ -24,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
         actions: [
           TextButton(
             child: Text(editMode ? 'cancel' : 'edit',
-                style: TextStyle(color: Colors.white, fontSize: 24)),
+                style: const TextStyle(color: Colors.white, fontSize: 24)),
             onPressed: () {
               setState(() {
                 editMode = !editMode;
@@ -44,29 +45,7 @@ class _MainScreenState extends State<MainScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Text(
-                'Checklists',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    shadows: <Shadow>[
-                      Shadow(
-                        offset: Offset(1.0, 1.0),
-                        blurRadius: 5.0,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                      Shadow(
-                        offset: Offset(1.0, 1.0),
-                        blurRadius: 10.0,
-                        color: Color.fromARGB(125, 0, 0, 255),
-                      ),
-                    ]),
-              ),
-            ),
+            const ScreenTitle(title: 'Checklists'),
             Expanded(
               child: ListView(
                 children: checklistList.map((checklist) {

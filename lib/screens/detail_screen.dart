@@ -1,3 +1,5 @@
+import 'package:checklisttracker/screens/detail_screen_controls.dart';
+import 'package:checklisttracker/shared_widgets/screen_title.dart';
 import 'package:flutter/material.dart';
 import '../models/mainlist.dart';
 
@@ -15,38 +17,49 @@ class _DetailScreenState extends State<DetailScreen> {
     return Scaffold(
         backgroundColor: const Color(0xFF7CE577),
         appBar: AppBar(
-          title: const Text('ChecklistApp'),
           backgroundColor: const Color.fromARGB(255, 68, 159, 19),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            launchModal(context);
+          },
           backgroundColor: const Color.fromARGB(255, 68, 159, 19),
           child: const Icon(Icons.add, color: Colors.white),
         ),
-        body: ListView(
-          children: widget.checklist.tasks.map((task) {
-            return Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white),
-              child: ListTile(
-                title: Text(
-                  task.title,
-                ),
-                trailing: GestureDetector(
-                  child: Checkbox(
-                    value: task.isChecked,
-                    onChanged: (value) {
-                      setState(() {
-                        task.toggleChecked();
-                      });
-                    },
-                  ),
-                ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ScreenTitle(
+              title: widget.checklist.title,
+            ),
+            Expanded(
+              child: ListView(
+                children: widget.checklist.tasks.map((task) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white),
+                    child: ListTile(
+                      title: Text(
+                        task.title,
+                      ),
+                      trailing: GestureDetector(
+                        child: Checkbox(
+                          value: task.isChecked,
+                          onChanged: (value) {
+                            setState(() {
+                              task.toggleChecked();
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
-            );
-          }).toList(),
+            ),
+          ],
         ));
   }
 }

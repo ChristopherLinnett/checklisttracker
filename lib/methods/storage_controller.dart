@@ -1,11 +1,30 @@
+import 'package:checklisttracker/models/toplevellist.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:checklisttracker/models/mainlist.dart';
 
 class Storage {
-  Storage({required LocalStorage storage});
-  final LocalStorage storage = LocalStorage('checklisttracker');
+  LocalStorage storage = LocalStorage('checklisttracker');
+  final String storageName = 'checklisttracker';
 
-  saveItem({required Checklist checklistList}) {
-    storage.setItem('checklisttracker', checklistList.toEncodable());
+  init() {
+    ListofLists outputList = ListofLists(checklistList: []);
+    var totalMap = storage.getItem(storageName);
+    var checklists = totalMap != null ? totalMap['checklist'] : ['empty'];
+    for (var list in checklists) {
+      outputList.insert(0, list['title']);
+      for (var task in list['tasks']) {
+        outputList.list[0]
+            .createTask(taskName: task['title'], isChecked: task['isChecked']);
+      }
+    }
+    return outputList;
+  }
+
+  saveItem({required ListofLists checklistList}) {
+    storage.setItem(storageName, checklistList.toEncodable());
+    print(storage.getItem(storageName));
+  }
+
+  clearStorage() async {
+    await storage.clear();
   }
 }

@@ -12,7 +12,7 @@ class ChecklistApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        'main': (context) => const MainScreen(),
+        'main': (context) => MainScreen(),
       },
       initialRoute: 'main',
     );

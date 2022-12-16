@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import '../models/mainlist.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key, required this.checklist});
+  const DetailScreen(
+      {super.key, required this.checklist, required this.saveMainList});
   final Checklist checklist;
+  final Function saveMainList;
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -42,7 +44,8 @@ class _DetailScreenState extends State<DetailScreen> {
             launchModal(context: context, type: 'task').then((newTask) {
               if (newTask != '') {
                 setState(() {
-                  widget.checklist.createTask(newTask);
+                  widget.checklist.createTask(taskName: newTask);
+                  widget.saveMainList();
                 });
               }
             });
@@ -101,6 +104,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     onPressed: () {
                                       setState(() {
                                         widget.checklist.deleteTask(task.key);
+                                        widget.saveMainList();
                                       });
                                     },
                                     iconSize: 36,
@@ -110,6 +114,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 onChanged: (value) {
                                   setState(() {
                                     task.toggleChecked();
+                                    widget.saveMainList();
                                   });
                                 },
                               ),

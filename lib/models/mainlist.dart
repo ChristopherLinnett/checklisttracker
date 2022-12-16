@@ -2,7 +2,7 @@ import 'package:checklisttracker/models/task.dart';
 import 'package:flutter/material.dart';
 
 class Checklist {
-  Checklist(this.title, this.tasks);
+  Checklist({required this.title, required this.tasks});
   final String key = UniqueKey().toString();
   String title;
   List<Task> tasks;
@@ -13,9 +13,9 @@ class Checklist {
     });
   }
 
-  createTask(String taskName) {
+  createTask({required String taskName, bool? isChecked}) {
     tasks.add(
-      Task(taskName, false),
+      Task(taskName, isChecked ?? false),
     );
   }
 

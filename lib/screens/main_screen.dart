@@ -1,21 +1,27 @@
+import 'package:checklisttracker/methods/storage_controller.dart';
 import 'package:checklisttracker/models/toplevellist.dart';
 import 'package:checklisttracker/screens/detail_screen.dart';
 import 'package:checklisttracker/shared_widgets/screen_title.dart';
 import 'package:flutter/material.dart';
-import '../models/mainlist.dart';
 import 'package:checklisttracker/screens/modal_controller.dart';
 import 'package:flutter/cupertino.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  MainScreen({super.key});
+  final storage = Storage();
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  ListofLists checklistList = ListofLists([]);
+  _MainScreenState();
+  ListofLists checklistList = ListofLists(checklistList: []);
   bool editMode = false;
+
+  save() {
+    widget.storage.saveItem(checklistList: checklistList);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +50,8 @@ class _MainScreenState extends State<MainScreen> {
           launchModal(context: context, type: 'checklist').then((newlistname) {
             if (newlistname.isNotEmpty) {
               setState(() {
-                checklistList.insert(0, Checklist(newlistname, []));
+                checklistList.insert(0, newlistname);
+                save();
               });
             }
           });
@@ -87,7 +94,18 @@ class _MainScreenState extends State<MainScreen> {
                               title: Text(
                                 checklist.title,
                               ),
-                              trailing: IconButton(
+                              trailing: editMode ? IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    color: Colors.red,
+                                    onPressed: () {
+                                      setState(() {
+                                        checklistList.delete(checklist.key);
+                                       save();
+                                      });
+                                    },
+                                    iconSize: 36,
+                                  ): 
+                                  IconButton(
                                   icon: const Icon(
                                     Icons.arrow_forward_ios,
                                     color: Colors.blue,
@@ -97,6 +115,7 @@ class _MainScreenState extends State<MainScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => DetailScreen(
+                                                saveMainList: save,
                                                 checklist: checklist)));
                                   }),
                             ),
@@ -104,6 +123,14 @@ class _MainScreenState extends State<MainScreen> {
                         }).toList(),
                       ),
               ),
+              TextButton(
+                child: Text('press to load'),
+                onPressed: () {
+                  setState(() {
+                    checklistList = widget.storage.init();
+                  });
+                },
+              )
             ],
           ),
         ),

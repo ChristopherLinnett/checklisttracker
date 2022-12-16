@@ -1,7 +1,7 @@
 import 'package:checklisttracker/models/mainlist.dart';
 
 class ListofLists {
-  ListofLists(this.checklistList);
+  ListofLists({required this.checklistList});
   List<Checklist> checklistList;
 
   toEncodable() {
@@ -20,7 +20,13 @@ class ListofLists {
     return checklistList.isEmpty;
   }
 
-  void insert(int index, Checklist checklist) {
-    checklistList.insert(index, checklist);
+  void delete(String key) {
+    checklistList.removeWhere((list) {
+      return list.key == key;
+    });
+  }
+
+  void insert(int index, String listname) {
+    checklistList.insert(index, Checklist(title: listname, tasks: []));
   }
 }

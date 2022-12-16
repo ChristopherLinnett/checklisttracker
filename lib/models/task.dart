@@ -15,4 +15,11 @@ class Task {
   toggleChecked() {
     isChecked = !isChecked;
   }
+
+  toEncodable() {
+    Map encodedTask = {};
+    encodedTask['title'] = title;
+    encodedTask['isChecked'] = isChecked;
+    return encodedTask;
+  }
 }

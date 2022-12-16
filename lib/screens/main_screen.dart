@@ -1,3 +1,4 @@
+import 'package:checklisttracker/models/toplevellist.dart';
 import 'package:checklisttracker/screens/detail_screen.dart';
 import 'package:checklisttracker/shared_widgets/screen_title.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<Checklist> checklistList = [];
+  ListofLists checklistList = ListofLists([]);
   bool editMode = false;
 
   @override
@@ -57,12 +58,12 @@ class _MainScreenState extends State<MainScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ScreenTitle(title: 'Checklists'),
+              const ScreenTitle(title: 'Checklists'),
               Expanded(
                 child: checklistList.isEmpty
-                    ? Center(
+                    ? const Center(
                         child: Text(
-                            'Nothing Here, click the + to add youf first checklist',
+                            'Nothing Here, click the + to add your first checklist',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.grey,
@@ -76,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
                                 ])),
                       )
                     : ListView(
-                        children: checklistList.map((checklist) {
+                        children: checklistList.list.map((checklist) {
                           return Container(
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),

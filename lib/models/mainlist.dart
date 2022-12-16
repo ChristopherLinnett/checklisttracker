@@ -18,4 +18,13 @@ class Checklist {
       Task(taskName, false),
     );
   }
+
+  toEncodable() {
+    Map checklist = {};
+    checklist['title'] = title;
+    checklist['tasks'] = tasks.map((task) {
+      return task.toEncodable();
+    }).toList();
+    return checklist;
+  }
 }

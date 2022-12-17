@@ -100,7 +100,8 @@ class _MainScreenState extends State<MainScreen> {
                                       color: Colors.red,
                                       onPressed: () {
                                         setState(() {
-                                          widget.checklistList.delete(checklist.key);
+                                          widget.checklistList
+                                              .delete(checklist.key);
                                           save();
                                         });
                                       },
@@ -125,12 +126,6 @@ class _MainScreenState extends State<MainScreen> {
                         }).toList(),
                       ),
               ),
-              TextButton(
-                child: const Text('press to load'),
-                onPressed: () async {
-                  setState(() {});
-                },
-              )
             ],
           ),
         ),

@@ -1,13 +1,15 @@
 import 'package:checklisttracker/models/toplevellist.dart';
-import 'package:localstorage/localstorage.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class Storage {
-  LocalStorage storage = LocalStorage('checklisttracker');
+  Storage(this.storage);
+  final Box storage;
   final String storageName = 'checklisttracker';
 
-  init() {
+  init() async {
     ListofLists outputList = ListofLists(checklistList: []);
-    var totalMap = storage.getItem(storageName);
+    var totalMap = storage.get(storageName);
     var checklists = totalMap != null ? totalMap['checklist'] : ['empty'];
     for (var list in checklists) {
       outputList.insert(0, list['title']);
@@ -19,9 +21,8 @@ class Storage {
     return outputList;
   }
 
-  saveItem({required ListofLists checklistList}) {
-    storage.setItem(storageName, checklistList.toEncodable());
-    print(storage.getItem(storageName));
+  saveItem({required ListofLists checklistList}) async {
+    await storage.put(storageName, checklistList.toEncodable());
   }
 
   clearStorage() async {

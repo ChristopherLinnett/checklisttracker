@@ -7,20 +7,20 @@ import 'package:checklisttracker/screens/modal_controller.dart';
 import 'package:flutter/cupertino.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen({super.key});
-  final storage = Storage();
+  const MainScreen(
+      {super.key, required this.storage, required this.checklistList});
+  final Storage storage;
+  final ListofLists checklistList;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  _MainScreenState();
-  ListofLists checklistList = ListofLists(checklistList: []);
   bool editMode = false;
 
   save() {
-    widget.storage.saveItem(checklistList: checklistList);
+    widget.storage.saveItem(checklistList: widget.checklistList);
   }
 
   @override
@@ -32,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
           backgroundColor: Colors.black,
           trailing: TextButton(
             child: Text(
-                checklistList.isEmpty
+                widget.checklistList.isEmpty
                     ? ''
                     : editMode
                         ? 'done'
@@ -50,7 +50,7 @@ class _MainScreenState extends State<MainScreen> {
           launchModal(context: context, type: 'checklist').then((newlistname) {
             if (newlistname.isNotEmpty) {
               setState(() {
-                checklistList.insert(0, newlistname);
+                widget.checklistList.insert(0, newlistname);
                 save();
               });
             }
@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               const ScreenTitle(title: 'Checklists'),
               Expanded(
-                child: checklistList.isEmpty
+                child: widget.checklistList.isEmpty
                     ? const Center(
                         child: Text(
                             'Nothing Here, click the + to add your first checklist',
@@ -84,7 +84,7 @@ class _MainScreenState extends State<MainScreen> {
                                 ])),
                       )
                     : ListView(
-                        children: checklistList.list.map((checklist) {
+                        children: widget.checklistList.list.map((checklist) {
                           return Container(
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
@@ -94,41 +94,41 @@ class _MainScreenState extends State<MainScreen> {
                               title: Text(
                                 checklist.title,
                               ),
-                              trailing: editMode ? IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    color: Colors.red,
-                                    onPressed: () {
-                                      setState(() {
-                                        checklistList.delete(checklist.key);
-                                       save();
-                                      });
-                                    },
-                                    iconSize: 36,
-                                  ): 
-                                  IconButton(
-                                  icon: const Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.blue,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => DetailScreen(
-                                                saveMainList: save,
-                                                checklist: checklist)));
-                                  }),
+                              trailing: editMode
+                                  ? IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      color: Colors.red,
+                                      onPressed: () {
+                                        setState(() {
+                                          widget.checklistList.delete(checklist.key);
+                                          save();
+                                        });
+                                      },
+                                      iconSize: 36,
+                                    )
+                                  : IconButton(
+                                      icon: const Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.blue,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailScreen(
+                                                        saveMainList: save,
+                                                        checklist: checklist)));
+                                      }),
                             ),
                           );
                         }).toList(),
                       ),
               ),
               TextButton(
-                child: Text('press to load'),
-                onPressed: () {
-                  setState(() {
-                    checklistList = widget.storage.init();
-                  });
+                child: const Text('press to load'),
+                onPressed: () async {
+                  setState(() {});
                 },
               )
             ],

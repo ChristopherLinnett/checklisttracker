@@ -10,7 +10,7 @@ class Storage {
   init() async {
     ListofLists outputList = ListofLists(checklistList: []);
     var totalMap = storage.get(storageName);
-    var checklists = totalMap != null ? totalMap['checklist'] : ['empty'];
+    var checklists = totalMap != null ? totalMap['checklist'] : [];
     for (var list in checklists) {
       outputList.insert(0, list['title']);
       for (var task in list['tasks']) {

@@ -27,6 +27,6 @@ class ListofLists {
   }
 
   void insert(int index, String listname) {
-    checklistList.insert(index, Checklist(title: listname, tasks: []));
+    checklistList.add(Checklist(title: listname, tasks: []));
   }
 }

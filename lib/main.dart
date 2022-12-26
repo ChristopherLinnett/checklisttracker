@@ -20,11 +20,8 @@ class ChecklistApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: {
-        'main': (context) => MainScreen(storage: storage, checklistList: list),
-      },
-      initialRoute: 'main',
-    );
+    return MaterialApp(routes: {
+      'main': (context) => MainScreen(storage: storage, checklistList: list),
+    }, initialRoute: 'main', theme: ThemeData.dark());
   }
 }

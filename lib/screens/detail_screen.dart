@@ -60,69 +60,84 @@ class _DetailScreenState extends State<DetailScreen> {
               ScreenTitle(
                 title: widget.checklist.title,
               ),
-              Expanded(
-                child: ListView(
-                  children: widget.checklist.tasks.map((task) {
-                    return Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white),
-                      child: ListTile(
-                        title: editMode
-                            ? TextFormField(
-                                initialValue: task.title,
-                                onChanged: (value) {
-                                  task.tempTitle = value;
-                                  setState(() {
-                                    if (value != task.title) {
-                                      task.editable = true;
-                                    } else {
-                                      task.editable = false;
-                                    }
-                                  });
-                                })
-                            : Text(
-                                task.title,
-                              ),
-                        trailing: editMode
-                            ? (task.editable
-                                ? IconButton(
-                                    icon: const Icon(Icons.check),
-                                    color: Colors.blue,
-                                    onPressed: () {
+              AnimatedContainer(
+                color: const Color.fromARGB(255, 47, 13, 0),
+                duration: const Duration(milliseconds: 300),
+                height: widget.checklist.tasks.length * 70,
+                child: ListView.builder(
+                    itemCount: widget.checklist.tasks.length,
+                    itemBuilder: ((context, index) => Column(children: [
+                          ListTile(
+                            title: editMode
+                                ? TextFormField(
+                                    initialValue:
+                                        widget.checklist.tasks[index].title,
+                                    onChanged: (value) {
+                                      widget.checklist.tasks[index].tempTitle =
+                                          value;
                                       setState(() {
-                                        task.title = task.tempTitle;
-                                        task.tempTitle = '';
-                                        task.editable = false;
+                                        if (value !=
+                                            widget
+                                                .checklist.tasks[index].title) {
+                                          widget.checklist.tasks[index]
+                                              .editable = true;
+                                        } else {
+                                          widget.checklist.tasks[index]
+                                              .editable = false;
+                                        }
                                       });
-                                    },
-                                  )
-                                : IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    color: Colors.red,
-                                    onPressed: () {
+                                    })
+                                : Text(
+                                    widget.checklist.tasks[index].title,
+                                  ),
+                            trailing: editMode
+                                ? (widget.checklist.tasks[index].editable
+                                    ? IconButton(
+                                        icon: const Icon(Icons.check),
+                                        color: Colors.blue,
+                                        onPressed: () {
+                                          setState(() {
+                                            widget.checklist.tasks[index]
+                                                    .title =
+                                                widget.checklist.tasks[index]
+                                                    .tempTitle;
+                                            widget.checklist.tasks[index]
+                                                .tempTitle = '';
+                                            widget.checklist.tasks[index]
+                                                .editable = false;
+                                          });
+                                        },
+                                      )
+                                    : IconButton(
+                                        icon: const Icon(Icons.delete),
+                                        color: Colors.red,
+                                        onPressed: () {
+                                          setState(() {
+                                            widget.checklist.deleteTask(widget
+                                                .checklist.tasks[index].key);
+                                            widget.saveMainList();
+                                          });
+                                        },
+                                        iconSize: 36,
+                                      ))
+                                : Checkbox(
+                                    checkColor: Colors.black,
+                                    fillColor:
+                                        MaterialStateProperty.all(Colors.white),
+                                    value:
+                                        widget.checklist.tasks[index].isChecked,
+                                    onChanged: (value) {
                                       setState(() {
-                                        widget.checklist.deleteTask(task.key);
+                                        widget.checklist.tasks[index]
+                                            .toggleChecked();
                                         widget.saveMainList();
                                       });
                                     },
-                                    iconSize: 36,
-                                  ))
-                            : Checkbox(
-                                value: task.isChecked,
-                                onChanged: (value) {
-                                  setState(() {
-                                    task.toggleChecked();
-                                    widget.saveMainList();
-                                  });
-                                },
-                              ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
+                                  ),
+                          ),
+                          const Divider(color: Colors.white)
+                        ]))),
+              )
             ],
           ),
         ));

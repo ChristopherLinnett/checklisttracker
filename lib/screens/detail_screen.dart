@@ -61,7 +61,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 title: widget.checklist.title,
               ),
               AnimatedContainer(
-                color: const Color.fromARGB(255, 47, 13, 0),
+                color: const Color.fromARGB(255, 59, 52, 49),
                 duration: const Duration(milliseconds: 300),
                 height: widget.checklist.tasks.length * 70,
                 child: ListView.builder(

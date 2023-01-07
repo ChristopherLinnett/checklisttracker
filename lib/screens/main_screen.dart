@@ -80,12 +80,12 @@ class _MainScreenState extends State<MainScreen> {
                                   shadows: [
                                     Shadow(
                                         blurRadius: 4,
-                                        color: Color.fromARGB(255, 118, 10, 2),
+                                        color: Color.fromARGB(255, 59, 52, 49),
                                         offset: Offset(4, 4))
                                   ])),
                         )
                       : AnimatedContainer(
-                          color: const Color.fromARGB(255, 47, 13, 0),
+                          color: const Color.fromARGB(255, 59, 52, 49),
                           height: widget.checklistList.list.isNotEmpty
                               ? widget.checklistList.list.length * 70
                               : 100,
